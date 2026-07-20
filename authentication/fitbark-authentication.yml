@@ -1,0 +1,30 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/fitbark-openapi.yml
+summary:
+  types:
+  - http
+  - oauth2
+  oauth2_flows:
+  - authorizationCode
+  - clientCredentials
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  description: OAuth 2.0 user access token (Bearer) obtained from /oauth/token
+  sources:
+  - openapi/fitbark-openapi.yml
+- name: oauth2
+  type: oauth2
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://app.fitbark.com/oauth/authorize
+    tokenUrl: https://app.fitbark.com/oauth/token
+    scopes: 1
+  - flow: clientCredentials
+    tokenUrl: https://app.fitbark.com/oauth/token
+    scopes: 1
+  description: FitBark OAuth 2.0
+  sources:
+  - openapi/fitbark-openapi.yml
