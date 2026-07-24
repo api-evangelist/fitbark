@@ -1,0 +1,165 @@
+openapi: 3.0.3
+info:
+  title: FitBark Activity API
+  version: '2.0'
+  description: The FitBark API enables software developers to integrate FitBark dog activity and health data sets into third-party mobile and web applications. It exposes a dog's daily activity, historical activity series and totals, time-at-activity breakdowns, daily goals, similar-dog statistics, related users and dogs, and profile pictures. Authentication uses the OAuth 2.0 protocol; a client_id and client_secret are issued to approved developers on application. This description was reconstructed by API Evangelist from FitBark's official published Postman collection; it is not an official FitBark OpenAPI document.
+  contact:
+    name: FitBark Developer API
+    url: https://www.fitbark.com/dev/
+  termsOfService: https://help.fitbark.com/en/articles/6490193
+servers:
+- url: https://app.fitbark.com
+  description: FitBark production API
+tags:
+- name: Activity
+  description: Historical activity series, totals and time breakdowns
+paths:
+  /api/v2/activity_series:
+    post:
+      tags:
+      - Activity
+      operationId: getActivitySeries
+      summary: Get activity series
+      description: Get historical series data between two specified date times. The maximum range is 42 days with daily resolution and 7 days with hourly resolution. Access is Read.
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivitySeriesRequest'
+      responses:
+        '200':
+          description: Activity series
+        '401':
+          description: Unauthorized
+  /api/v2/activity_totals:
+    post:
+      tags:
+      - Activity
+      operationId: getActivityTotals
+      summary: Get activity totals
+      description: Get historical activity data by totaling the historical series between two specified date times. Access is Read.
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DogDateRangeRequest'
+      responses:
+        '200':
+          description: Activity totals
+        '401':
+          description: Unauthorized
+  /api/v2/time_breakdown:
+    post:
+      tags:
+      - Activity
+      operationId: getTimeBreakdown
+      summary: Get time breakdown
+      description: Get the time (in minutes) spent at each activity level (rest, active, play) for a certain dog between two specified date times. Access is Read.
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DogDateRangeRequest'
+      responses:
+        '200':
+          description: Time breakdown
+        '401':
+          description: Unauthorized
+  /api/v2/similar_dogs_stats:
+    post:
+      tags:
+      - Activity
+      operationId: getSimilarDogsStats
+      summary: Get similar dogs stats
+      description: Get this dog's, and similar dogs', statistics. Access is Read.
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                slug:
+                  type: string
+                  description: Dog slug
+      responses:
+        '200':
+          description: Similar dogs statistics
+        '401':
+          description: Unauthorized
+components:
+  schemas:
+    DogDateRangeRequest:
+      type: object
+      properties:
+        dog:
+          type: object
+          required:
+          - slug
+          - from
+          - to
+          properties:
+            slug:
+              type: string
+            from:
+              type: string
+              format: date
+            to:
+              type: string
+              format: date
+    ActivitySeriesRequest:
+      type: object
+      properties:
+        activity_series:
+          type: object
+          required:
+          - slug
+          - from
+          - to
+          properties:
+            slug:
+              type: string
+            from:
+              type: string
+              format: date
+            to:
+              type: string
+              format: date
+            resolution:
+              type: string
+              enum:
+              - DAILY
+              - HOURLY
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 user access token (Bearer) obtained from /oauth/token
+    openApiToken:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 application (open-API) token from the client_credentials grant
+    oauth2:
+      type: oauth2
+      description: FitBark OAuth 2.0
+      flows:
+        authorizationCode:
+          authorizationUrl: https://app.fitbark.com/oauth/authorize
+          tokenUrl: https://app.fitbark.com/oauth/token
+          scopes:
+            fitbark_open_api: Access to the FitBark Public API for the approved application
+        clientCredentials:
+          tokenUrl: https://app.fitbark.com/oauth/token
+          scopes:
+            fitbark_open_api: Access to the FitBark Public API for the approved application

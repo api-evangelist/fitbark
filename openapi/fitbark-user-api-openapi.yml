@@ -1,0 +1,116 @@
+openapi: 3.0.3
+info:
+  title: FitBark Activity User API
+  version: '2.0'
+  description: The FitBark API enables software developers to integrate FitBark dog activity and health data sets into third-party mobile and web applications. It exposes a dog's daily activity, historical activity series and totals, time-at-activity breakdowns, daily goals, similar-dog statistics, related users and dogs, and profile pictures. Authentication uses the OAuth 2.0 protocol; a client_id and client_secret are issued to approved developers on application. This description was reconstructed by API Evangelist from FitBark's official published Postman collection; it is not an official FitBark OpenAPI document.
+  contact:
+    name: FitBark Developer API
+    url: https://www.fitbark.com/dev/
+  termsOfService: https://help.fitbark.com/en/articles/6490193
+servers:
+- url: https://app.fitbark.com
+  description: FitBark production API
+tags:
+- name: User
+  description: Authenticated user profile and relationships
+paths:
+  /api/v2/user:
+    get:
+      tags:
+      - User
+      operationId: getUser
+      summary: Get user info
+      description: Get information about the specified (authenticated) user including name, username (email address), profile picture and Facebook ID. Access is Read.
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: User object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+  /api/v2/picture/user/{user_slug}:
+    get:
+      tags:
+      - User
+      operationId: getUserPicture
+      summary: Get user picture
+      description: Get the Base64 encoded picture for a specified user. Images can only be accessed if the authenticated user is an existing owner or friend. Access is Read.
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: user_slug
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Base64 encoded user picture
+        '401':
+          description: Unauthorized
+  /api/v2/public_picture_user/{dog_slug}.jpg:
+    get:
+      tags:
+      - User
+      operationId: getPublicUserPicture
+      summary: Get public user picture
+      description: Get the public JPEG picture for a user associated with a dog.
+      parameters:
+      - $ref: '#/components/parameters/DogSlug'
+      responses:
+        '200':
+          description: JPEG image
+          content:
+            image/jpeg: {}
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        slug:
+          type: string
+        name:
+          type: string
+        username:
+          type: string
+          description: Email address
+        first_name:
+          type: string
+        last_name:
+          type: string
+        picture_hash:
+          type: string
+  parameters:
+    DogSlug:
+      name: dog_slug
+      in: path
+      required: true
+      description: The unique slug identifying a dog
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 user access token (Bearer) obtained from /oauth/token
+    openApiToken:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 application (open-API) token from the client_credentials grant
+    oauth2:
+      type: oauth2
+      description: FitBark OAuth 2.0
+      flows:
+        authorizationCode:
+          authorizationUrl: https://app.fitbark.com/oauth/authorize
+          tokenUrl: https://app.fitbark.com/oauth/token
+          scopes:
+            fitbark_open_api: Access to the FitBark Public API for the approved application
+        clientCredentials:
+          tokenUrl: https://app.fitbark.com/oauth/token
+          scopes:
+            fitbark_open_api: Access to the FitBark Public API for the approved application

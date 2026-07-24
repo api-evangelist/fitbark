@@ -1,0 +1,155 @@
+openapi: 3.0.3
+info:
+  title: FitBark Activity OAuth API
+  version: '2.0'
+  description: The FitBark API enables software developers to integrate FitBark dog activity and health data sets into third-party mobile and web applications. It exposes a dog's daily activity, historical activity series and totals, time-at-activity breakdowns, daily goals, similar-dog statistics, related users and dogs, and profile pictures. Authentication uses the OAuth 2.0 protocol; a client_id and client_secret are issued to approved developers on application. This description was reconstructed by API Evangelist from FitBark's official published Postman collection; it is not an official FitBark OpenAPI document.
+  contact:
+    name: FitBark Developer API
+    url: https://www.fitbark.com/dev/
+  termsOfService: https://help.fitbark.com/en/articles/6490193
+servers:
+- url: https://app.fitbark.com
+  description: FitBark production API
+tags:
+- name: OAuth
+  description: OAuth 2.0 authorization and token endpoints
+paths:
+  /oauth/authorize:
+    get:
+      tags:
+      - OAuth
+      operationId: authorize
+      summary: Get user access code
+      description: OAuth 2.0 authorization endpoint. Redirects the user to grant the application access; returns an authorization code that is exchanged at the token endpoint for a user access token.
+      parameters:
+      - name: response_type
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - code
+      - name: client_id
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: redirect_uri
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '302':
+          description: Redirect to redirect_uri with authorization code
+  /oauth/token:
+    post:
+      tags:
+      - OAuth
+      operationId: token
+      summary: Exchange credentials for an access token
+      description: OAuth 2.0 token endpoint. Supports the authorization_code grant (exchange a user authorization code for a user access token) and the client_credentials grant (obtain an application/open-API token).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
+      responses:
+        '200':
+          description: Access token issued
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '401':
+          description: Invalid client credentials or grant
+  /api/v2/redirect_urls:
+    get:
+      tags:
+      - OAuth
+      operationId: getRedirectUrls
+      summary: Get registered OAuth redirect URIs
+      security:
+      - openApiToken: []
+      responses:
+        '200':
+          description: List of registered redirect URIs
+    post:
+      tags:
+      - OAuth
+      operationId: setRedirectUrls
+      summary: Set OAuth 2.0 redirect URIs via API
+      description: All callbacks for user authentication must use a registered redirect URI. Register one or more redirect URIs for the application.
+      security:
+      - openApiToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                redirect_uri:
+                  type: string
+                  description: One or more redirect URIs (carriage-return separated)
+      responses:
+        '200':
+          description: Redirect URIs registered
+components:
+  schemas:
+    TokenRequest:
+      type: object
+      required:
+      - grant_type
+      - client_id
+      - client_secret
+      properties:
+        grant_type:
+          type: string
+          enum:
+          - authorization_code
+          - client_credentials
+        client_id:
+          type: string
+        client_secret:
+          type: string
+        scope:
+          type: string
+        code:
+          type: string
+          description: Authorization code (authorization_code grant only)
+    TokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+        token_type:
+          type: string
+          example: bearer
+        expires_in:
+          type: integer
+        scope:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 user access token (Bearer) obtained from /oauth/token
+    openApiToken:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 application (open-API) token from the client_credentials grant
+    oauth2:
+      type: oauth2
+      description: FitBark OAuth 2.0
+      flows:
+        authorizationCode:
+          authorizationUrl: https://app.fitbark.com/oauth/authorize
+          tokenUrl: https://app.fitbark.com/oauth/token
+          scopes:
+            fitbark_open_api: Access to the FitBark Public API for the approved application
+        clientCredentials:
+          tokenUrl: https://app.fitbark.com/oauth/token
+          scopes:
+            fitbark_open_api: Access to the FitBark Public API for the approved application

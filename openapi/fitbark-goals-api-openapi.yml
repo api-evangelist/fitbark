@@ -1,0 +1,93 @@
+openapi: 3.0.3
+info:
+  title: FitBark Activity Goals API
+  version: '2.0'
+  description: The FitBark API enables software developers to integrate FitBark dog activity and health data sets into third-party mobile and web applications. It exposes a dog's daily activity, historical activity series and totals, time-at-activity breakdowns, daily goals, similar-dog statistics, related users and dogs, and profile pictures. Authentication uses the OAuth 2.0 protocol; a client_id and client_secret are issued to approved developers on application. This description was reconstructed by API Evangelist from FitBark's official published Postman collection; it is not an official FitBark OpenAPI document.
+  contact:
+    name: FitBark Developer API
+    url: https://www.fitbark.com/dev/
+  termsOfService: https://help.fitbark.com/en/articles/6490193
+servers:
+- url: https://app.fitbark.com
+  description: FitBark production API
+tags:
+- name: Goals
+  description: Daily goal management
+paths:
+  /api/v2/daily_goal/{dog_slug}:
+    get:
+      tags:
+      - Goals
+      operationId: getDailyGoal
+      summary: Get daily goal
+      description: Get a dog's current daily goal and future daily goals set by an authorized user (if any). Access is Read.
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/DogSlug'
+      responses:
+        '200':
+          description: Daily goals
+        '401':
+          description: Unauthorized
+        '404':
+          description: Dog not found
+    put:
+      tags:
+      - Goals
+      operationId: editDailyGoal
+      summary: Edit daily goal
+      description: Set the daily goal for a specified dog, and get a response with future daily goals (if any). By default a future daily goal repeats. Access is Write.
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/DogSlug'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                daily_goal:
+                  type: integer
+                  example: 7900
+                date:
+                  type: string
+                  format: date
+      responses:
+        '200':
+          description: Updated daily goals
+        '401':
+          description: Unauthorized
+components:
+  parameters:
+    DogSlug:
+      name: dog_slug
+      in: path
+      required: true
+      description: The unique slug identifying a dog
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 user access token (Bearer) obtained from /oauth/token
+    openApiToken:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 application (open-API) token from the client_credentials grant
+    oauth2:
+      type: oauth2
+      description: FitBark OAuth 2.0
+      flows:
+        authorizationCode:
+          authorizationUrl: https://app.fitbark.com/oauth/authorize
+          tokenUrl: https://app.fitbark.com/oauth/token
+          scopes:
+            fitbark_open_api: Access to the FitBark Public API for the approved application
+        clientCredentials:
+          tokenUrl: https://app.fitbark.com/oauth/token
+          scopes:
+            fitbark_open_api: Access to the FitBark Public API for the approved application

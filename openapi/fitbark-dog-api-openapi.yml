@@ -1,0 +1,166 @@
+openapi: 3.0.3
+info:
+  title: FitBark Activity Dog API
+  version: '2.0'
+  description: The FitBark API enables software developers to integrate FitBark dog activity and health data sets into third-party mobile and web applications. It exposes a dog's daily activity, historical activity series and totals, time-at-activity breakdowns, daily goals, similar-dog statistics, related users and dogs, and profile pictures. Authentication uses the OAuth 2.0 protocol; a client_id and client_secret are issued to approved developers on application. This description was reconstructed by API Evangelist from FitBark's official published Postman collection; it is not an official FitBark OpenAPI document.
+  contact:
+    name: FitBark Developer API
+    url: https://www.fitbark.com/dev/
+  termsOfService: https://help.fitbark.com/en/articles/6490193
+servers:
+- url: https://app.fitbark.com
+  description: FitBark production API
+tags:
+- name: Dog
+  description: Dog profile, relationships and pictures
+paths:
+  /api/v2/user_relations/{dog_slug}:
+    get:
+      tags:
+      - Dog
+      operationId: getDogRelatedUsers
+      summary: Get dog related users
+      description: Get a list of users currently associated with a specified dog, together with the type of relationship (Owner or Friend). Access is Read.
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/DogSlug'
+      responses:
+        '200':
+          description: Related users
+        '401':
+          description: Unauthorized
+        '404':
+          description: Dog not found
+  /api/v2/dog_relations:
+    get:
+      tags:
+      - Dog
+      operationId: getUserRelatedDogs
+      summary: Get user related dogs
+      description: Get the dogs related to the authenticated user. Access is Read.
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Related dogs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  dog_relations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Dog'
+        '401':
+          description: Unauthorized
+  /api/v2/dog/{dog_slug}:
+    get:
+      tags:
+      - Dog
+      operationId: getDog
+      summary: Get dog info
+      description: Get various information about a certain dog including name, breed, gender, weight, birthday and picture. Access is Read.
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/DogSlug'
+      responses:
+        '200':
+          description: Dog object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dog'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Dog not found
+  /api/v2/picture/dog/{dog_slug}:
+    get:
+      tags:
+      - Dog
+      operationId: getDogPicture
+      summary: Get dog picture
+      description: Get the Base64 encoded picture for a specified dog. Images can only be accessed if the authenticated user is an existing owner or friend. Access is Read.
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/DogSlug'
+      responses:
+        '200':
+          description: Base64 encoded dog picture
+        '401':
+          description: Unauthorized
+  /api/v2/public_picture_dog/{dog_slug}.jpg:
+    get:
+      tags:
+      - Dog
+      operationId: getPublicDogPicture
+      summary: Get public dog picture
+      description: Get the public JPEG picture for a specified dog.
+      parameters:
+      - $ref: '#/components/parameters/DogSlug'
+      responses:
+        '200':
+          description: JPEG image
+          content:
+            image/jpeg: {}
+components:
+  schemas:
+    Dog:
+      type: object
+      properties:
+        slug:
+          type: string
+        name:
+          type: string
+        breed:
+          type: string
+        gender:
+          type: string
+        weight:
+          type: number
+        weight_unit:
+          type: string
+        birth:
+          type: string
+        medical_conditions:
+          type: array
+          items:
+            type: string
+        activity_value:
+          type: integer
+        picture_hash:
+          type: string
+  parameters:
+    DogSlug:
+      name: dog_slug
+      in: path
+      required: true
+      description: The unique slug identifying a dog
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 user access token (Bearer) obtained from /oauth/token
+    openApiToken:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 application (open-API) token from the client_credentials grant
+    oauth2:
+      type: oauth2
+      description: FitBark OAuth 2.0
+      flows:
+        authorizationCode:
+          authorizationUrl: https://app.fitbark.com/oauth/authorize
+          tokenUrl: https://app.fitbark.com/oauth/token
+          scopes:
+            fitbark_open_api: Access to the FitBark Public API for the approved application
+        clientCredentials:
+          tokenUrl: https://app.fitbark.com/oauth/token
+          scopes:
+            fitbark_open_api: Access to the FitBark Public API for the approved application
