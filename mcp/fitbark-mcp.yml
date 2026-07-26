@@ -1,0 +1,21 @@
+generated: '2026-07-19'
+method: derived
+status: candidate
+source: openapi/fitbark-openapi.yml
+notes: >-
+  No official FitBark MCP server exists. This is a candidate tool surface derived
+  one-tool-per-operation from the reconstructed OpenAPI, for building an MCP server.
+server:
+  name: fitbark
+  transport: http
+tools:
+  - { name: get_user, description: Get authenticated user info, source_operation: openapi/fitbark-openapi.yml#getUser }
+  - { name: get_user_related_dogs, description: List dogs related to the user, source_operation: openapi/fitbark-openapi.yml#getUserRelatedDogs }
+  - { name: get_dog, description: Get dog info, source_operation: openapi/fitbark-openapi.yml#getDog }
+  - { name: get_dog_related_users, description: List users related to a dog, source_operation: openapi/fitbark-openapi.yml#getDogRelatedUsers }
+  - { name: get_daily_goal, description: Get a dog's daily goal, source_operation: openapi/fitbark-openapi.yml#getDailyGoal }
+  - { name: edit_daily_goal, description: Set a dog's daily goal, source_operation: openapi/fitbark-openapi.yml#editDailyGoal }
+  - { name: get_activity_series, description: Get activity series over a date range, source_operation: openapi/fitbark-openapi.yml#getActivitySeries }
+  - { name: get_activity_totals, description: Get activity totals over a date range, source_operation: openapi/fitbark-openapi.yml#getActivityTotals }
+  - { name: get_time_breakdown, description: Get time-at-activity-level breakdown, source_operation: openapi/fitbark-openapi.yml#getTimeBreakdown }
+  - { name: get_similar_dogs_stats, description: Get similar dogs statistics, source_operation: openapi/fitbark-openapi.yml#getSimilarDogsStats }

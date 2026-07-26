@@ -1,0 +1,20 @@
+generated: '2026-07-19'
+method: searched
+source: https://www.fitbark.com/dev/ + FitBark Public API Postman documentation
+versioning:
+  scheme: uri-path
+  current: v2
+  detail: The API version is embedded in the request path (/api/v2/...).
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: No published deprecation policy or RFC 8594 Sunset/Deprecation header support found.
+sla:
+  url: null
+status_page: null
+support:
+  api_faq: https://help.fitbark.com/en/collections/3873135
+  terms: https://help.fitbark.com/en/articles/6490193
+notes: >-
+  FitBark publishes no dedicated status page, changelog, or deprecation policy for
+  the Public API. Access is granted by application (https://www.fitbark.com/dev/).

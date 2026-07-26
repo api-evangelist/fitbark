@@ -1,0 +1,12 @@
+generated: '2026-07-19'
+method: generated
+source: openapi/fitbark-openapi.yml
+skills:
+  - file: fitbark-read-dog-activity.md
+    name: Read a dog's FitBark activity
+    api: openapi/fitbark-openapi.yml
+    operations: [token, getUserRelatedDogs, getDog, getActivitySeries, getActivityTotals, getTimeBreakdown]
+  - file: fitbark-manage-daily-goal.md
+    name: Manage a dog's FitBark daily goal
+    api: openapi/fitbark-openapi.yml
+    operations: [token, getUserRelatedDogs, getDailyGoal, editDailyGoal]

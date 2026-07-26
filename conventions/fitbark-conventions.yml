@@ -1,0 +1,41 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/fitbark-openapi.yml + FitBark Public API Postman documentation
+authentication:
+  style: oauth2-bearer
+  detail: >-
+    OAuth 2.0. Approved developers receive a client_id and client_secret. An
+    application (open-API) token is obtained via the client_credentials grant; a
+    user access token via the authorization_code grant. All API calls carry the
+    token as an Authorization: Bearer header.
+  ref: authentication/fitbark-authentication.yml
+idempotency:
+  supported: false
+  note: FitBark documents no idempotency-key mechanism.
+pagination:
+  style: date-range
+  detail: >-
+    Time-series endpoints (activity_series, activity_totals, time_breakdown) are
+    bounded by from/to date parameters rather than cursor/offset paging. Maximum
+    range is 42 days at DAILY resolution and 7 days at HOURLY resolution.
+  params: [from, to, resolution]
+resource_identifier:
+  scheme: slug
+  detail: Dogs and users are addressed by an opaque `slug` string (dog_slug / user_slug).
+versioning:
+  scheme: uri-path
+  current: v2
+  detail: The API version is embedded in the path (/api/v2/...).
+  ref: lifecycle/fitbark-lifecycle.yml
+request_body:
+  media_type: application/json
+  detail: >-
+    Several read operations use POST with a JSON body (activity_series wraps its
+    fields under an `activity_series` object; activity_totals and time_breakdown
+    wrap under a `dog` object).
+error_envelope:
+  format: http-status
+  detail: Errors are signaled by HTTP status (401 auth, 404 not found).
+  ref: errors/fitbark-problem-types.yml
+rate_limit_signaling:
+  documented: false

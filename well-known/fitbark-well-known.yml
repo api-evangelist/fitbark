@@ -1,0 +1,22 @@
+generated: '2026-07-19'
+method: searched
+source: live probes of /.well-known/ on FitBark hosts
+notes: >-
+  No /.well-known/ discovery documents are published. app.fitbark.com returns 503
+  (edge protection) for all probed paths; fitbark.com/www.fitbark.com return 404.
+  Absence is recorded as valid negative data.
+hosts:
+  - host: https://app.fitbark.com
+    documents:
+      - { path: /.well-known/security.txt, status: 503 }
+      - { path: /.well-known/openid-configuration, status: 503 }
+      - { path: /.well-known/oauth-authorization-server, status: 503 }
+      - { path: /.well-known/api-catalog, status: 503 }
+      - { path: /.well-known/ai-plugin.json, status: 503 }
+  - host: https://www.fitbark.com
+    documents:
+      - { path: /.well-known/security.txt, status: 404 }
+      - { path: /.well-known/openid-configuration, status: 404 }
+      - { path: /.well-known/oauth-authorization-server, status: 404 }
+      - { path: /.well-known/api-catalog, status: 404 }
+      - { path: /.well-known/ai-plugin.json, status: 404 }

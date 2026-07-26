@@ -1,0 +1,18 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/fitbark-openapi.yml
+standards:
+  - id: oauth2
+    conforms: true
+    evidence: OAuth 2.0 authorization_code and client_credentials flows (openapi securitySchemes + /oauth/authorize, /oauth/token)
+  - id: oidc
+    conforms: false
+    evidence: no openid-configuration or id_token
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: errors signaled by bare HTTP status, no application/problem+json
+  - id: rfc9116-security-txt
+    conforms: false
+    evidence: no /.well-known/security.txt published
+  - id: json-api
+    conforms: false

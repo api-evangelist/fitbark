@@ -1,7 +1,16 @@
 aid: fitbark
 name: FitBark
-description: FitBark is a company surfaced as a portfolio company of techstars and added to the API Evangelist
-  network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: >-
+  FitBark makes GPS and health-monitoring wearables for dogs and offers the FitBark
+  Public API (v2), an OAuth 2.0 REST API that lets developers integrate FitBark
+  activity and health data into third-party mobile and web applications. The API
+  exposes a dog's activity series and totals, time-at-activity-level breakdowns,
+  daily activity-point goals, similar-dog statistics, related users and dogs, and
+  Base64/JPEG profile pictures. Approved developers receive a client_id and
+  client_secret and authenticate with the OAuth 2.0 authorization_code and
+  client_credentials grants (base host https://app.fitbark.com). FitBark was a
+  Techstars portfolio company; this profile was enriched by API Evangelist from
+  FitBark's official published developer documentation and Postman collection.
 url: https://raw.githubusercontent.com/api-evangelist/fitbark/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -9,17 +18,172 @@ x-backed-by:
 - techstars
 x-tier: stub
 x-tier-reason: portfolio-lead
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://www.fitbark.com/favicon.ico
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-19'
 tags:
 - Company
-apis: []
+- Dogs
+- Pets
+- Wearables
+- Activity Tracking
+- Health
+- IoT
+- Fitness
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+apis:
+- aid: fitbark:fitbark-activity-api
+  name: FitBark Activity API
+  description: Historical activity series, totals and time breakdowns
+  humanURL: https://www.fitbark.com/dev/
+  baseURL: https://app.fitbark.com/api/v2
+  tags:
+  - Activity
+  properties:
+  - type: OpenAPI
+    url: openapi/fitbark-activity-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/fitbark-problem-types.yml
+  - type: DataModel
+    url: data-model/fitbark-data-model.yml
+  - type: Conventions
+    url: conventions/fitbark-conventions.yml
+  - type: Conformance
+    url: conformance/fitbark-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/fitbark-lifecycle.yml
+- aid: fitbark:fitbark-dog-api
+  name: FitBark Dog API
+  description: Dog profile, relationships and pictures
+  humanURL: https://www.fitbark.com/dev/
+  baseURL: https://app.fitbark.com/api/v2
+  tags:
+  - Dog
+  properties:
+  - type: OpenAPI
+    url: openapi/fitbark-dog-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/fitbark-problem-types.yml
+  - type: DataModel
+    url: data-model/fitbark-data-model.yml
+  - type: Conventions
+    url: conventions/fitbark-conventions.yml
+  - type: Conformance
+    url: conformance/fitbark-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/fitbark-lifecycle.yml
+- aid: fitbark:fitbark-goals-api
+  name: FitBark Goals API
+  description: Daily goal management
+  humanURL: https://www.fitbark.com/dev/
+  baseURL: https://app.fitbark.com/api/v2
+  tags:
+  - Goals
+  properties:
+  - type: OpenAPI
+    url: openapi/fitbark-goals-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/fitbark-problem-types.yml
+  - type: DataModel
+    url: data-model/fitbark-data-model.yml
+  - type: Conventions
+    url: conventions/fitbark-conventions.yml
+  - type: Conformance
+    url: conformance/fitbark-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/fitbark-lifecycle.yml
+- aid: fitbark:fitbark-oauth-api
+  name: FitBark OAuth API
+  description: OAuth 2.0 authorization and token endpoints
+  humanURL: https://www.fitbark.com/dev/
+  baseURL: https://app.fitbark.com/api/v2
+  tags:
+  - OAuth
+  properties:
+  - type: OpenAPI
+    url: openapi/fitbark-oauth-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/fitbark-problem-types.yml
+  - type: DataModel
+    url: data-model/fitbark-data-model.yml
+  - type: Conventions
+    url: conventions/fitbark-conventions.yml
+  - type: Conformance
+    url: conformance/fitbark-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/fitbark-lifecycle.yml
+- aid: fitbark:fitbark-user-api
+  name: FitBark User API
+  description: Authenticated user profile and relationships
+  humanURL: https://www.fitbark.com/dev/
+  baseURL: https://app.fitbark.com/api/v2
+  tags:
+  - User
+  properties:
+  - type: OpenAPI
+    url: openapi/fitbark-user-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/fitbark-problem-types.yml
+  - type: DataModel
+    url: data-model/fitbark-data-model.yml
+  - type: Conventions
+    url: conventions/fitbark-conventions.yml
+  - type: Conformance
+    url: conformance/fitbark-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/fitbark-lifecycle.yml
 common:
+- type: AgenticAccess
+  url: agentic-access/fitbark-agentic-access.yml
+- type: OAuthScopes
+  url: scopes/fitbark-scopes.yml
+- type: Authentication
+  url: authentication/fitbark-authentication.yml
+- type: DomainSecurity
+  url: security/fitbark-domain-security.yml
+- type: Packages
+  url: packages/fitbark-packages.yml
+- type: WellKnown
+  url: well-known/fitbark-well-known.yml
+- type: LLMsTxt
+  url: llms/fitbark-llms.txt
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DeveloperPortal
+  url: https://www.fitbark.com/dev/
+- type: Documentation
+  url: https://documenter.getpostman.com/view/238826/2s8ZDbW1Gf
+- type: APIReference
+  url: https://documenter.getpostman.com/view/238826/2s8ZDbW1Gf
+- type: Postman
+  url: https://documenter.getpostman.com/view/238826/2s8ZDbW1Gf
+- type: Support
+  url: https://help.fitbark.com/en/collections/3873135
+- type: TermsOfService
+  url: https://help.fitbark.com/en/articles/6490193
+- type: SignUp
+  url: https://forms.gle/tPAsmmEv9718a2ss7
 - type: Website
   url: https://fitbark.com/
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

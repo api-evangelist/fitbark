@@ -1,0 +1,19 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for FitBark API
+  version: 1.0.0
+extends: openapi/fitbark-openapi.yml
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-source: https://documenter.getpostman.com/view/238826/2s8ZDbW1Gf
+      x-apievangelist-reconstructed: true
+      x-apievangelist-tags:
+        - dogs
+        - pets
+        - wearables
+        - activity-tracking
+        - health
+  - target: $.info
+    update:
+      x-agentic-access: agentic-access/fitbark-agentic-access.yml

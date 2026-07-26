@@ -1,0 +1,24 @@
+# FitBark API
+
+> The FitBark API enables developers to integrate FitBark dog activity and health data into third-party mobile and web apps. It exposes a dog's activity series and totals, time-at-activity breakdowns, daily goals, similar-dog statistics, related users and dogs, and profile pictures. Authentication is OAuth 2.0; client_id/client_secret are issued to approved developers on application.
+
+## APIs
+
+- [FitBark API v2](https://www.fitbark.com/dev/): OAuth 2.0 REST API over dog activity, goals and profiles (base https://app.fitbark.com)
+
+## Specs
+
+- [OpenAPI (reconstructed)](https://raw.githubusercontent.com/api-evangelist/fitbark/refs/heads/main/openapi/fitbark-openapi.yml): reconstructed from FitBark's official Postman collection
+- [Authentication](https://raw.githubusercontent.com/api-evangelist/fitbark/refs/heads/main/authentication/fitbark-authentication.yml)
+- [OAuth scopes](https://raw.githubusercontent.com/api-evangelist/fitbark/refs/heads/main/scopes/fitbark-scopes.yml)
+- [Conventions](https://raw.githubusercontent.com/api-evangelist/fitbark/refs/heads/main/conventions/fitbark-conventions.yml)
+- [Data model](https://raw.githubusercontent.com/api-evangelist/fitbark/refs/heads/main/data-model/fitbark-data-model.yml)
+- [Error types](https://raw.githubusercontent.com/api-evangelist/fitbark/refs/heads/main/errors/fitbark-problem-types.yml)
+
+## Docs
+
+- [Developer overview](https://www.fitbark.com/dev/)
+- [API endpoints (Postman)](https://documenter.getpostman.com/view/238826/2s8ZDbW1Gf)
+- [API FAQ](https://help.fitbark.com/en/collections/3873135)
+- [API terms](https://help.fitbark.com/en/articles/6490193)
+- [Apply for API access](https://forms.gle/tPAsmmEv9718a2ss7)

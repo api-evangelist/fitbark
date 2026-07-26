@@ -1,0 +1,21 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/fitbark-openapi.yml
+schemes:
+- name: oauth2
+  source: openapi/fitbark-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://app.fitbark.com/oauth/authorize
+    tokenUrl: https://app.fitbark.com/oauth/token
+  - flow: clientCredentials
+    tokenUrl: https://app.fitbark.com/oauth/token
+  description: FitBark OAuth 2.0
+scopes:
+- scope: fitbark_open_api
+  description: Access to the FitBark Public API for the approved application
+  flows:
+  - authorizationCode
+  - clientCredentials
+  sources:
+  - openapi/fitbark-openapi.yml

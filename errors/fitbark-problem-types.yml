@@ -1,0 +1,26 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/fitbark-openapi.yml (4xx responses)
+format: http-status
+notes: >-
+  FitBark does not publish a dedicated error reference or RFC 9457 problem+json
+  envelope; these are the HTTP failure statuses derived from the OpenAPI reconstructed
+  from the official Postman collection. Standard OAuth 2.0 / bearer-token semantics apply.
+problems:
+  - status: 401
+    title: Unauthorized
+    meaning: Missing, invalid, or expired OAuth 2.0 bearer access token.
+    remediation: Re-authenticate via /oauth/token and retry with a valid Bearer token.
+    source_operations:
+      - openapi/fitbark-openapi.yml#getUser
+      - openapi/fitbark-openapi.yml#getDog
+      - openapi/fitbark-openapi.yml#getActivitySeries
+      - openapi/fitbark-openapi.yml#editDailyGoal
+  - status: 404
+    title: Not Found
+    meaning: The referenced dog (dog_slug) or resource does not exist or is not accessible to the authenticated user.
+    remediation: Verify the dog_slug and that the authenticated user is an owner or friend of the dog.
+    source_operations:
+      - openapi/fitbark-openapi.yml#getDog
+      - openapi/fitbark-openapi.yml#getDogRelatedUsers
+      - openapi/fitbark-openapi.yml#getDailyGoal

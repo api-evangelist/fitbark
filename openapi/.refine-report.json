@@ -1,0 +1,22 @@
+{
+  "provider": "fitbark",
+  "sources": [
+    "fitbark-activity-api-openapi.yml",
+    "fitbark-dog-api-openapi.yml",
+    "fitbark-goals-api-openapi.yml",
+    "fitbark-oauth-api-openapi.yml",
+    "fitbark-user-api-openapi.yml"
+  ],
+  "outputs": [
+    "fitbark-activity-api-openapi.yml",
+    "fitbark-dog-api-openapi.yml",
+    "fitbark-goals-api-openapi.yml",
+    "fitbark-oauth-api-openapi.yml",
+    "fitbark-user-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

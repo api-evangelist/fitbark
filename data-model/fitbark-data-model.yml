@@ -1,0 +1,45 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/fitbark-openapi.yml (schemas + id-reference fields)
+entities:
+  - name: User
+    identifier: slug
+    description: An authenticated FitBark account holder.
+    fields: [slug, name, username, first_name, last_name, picture_hash]
+  - name: Dog
+    identifier: slug
+    description: A dog whose activity is tracked by a FitBark device.
+    fields: [slug, name, breed, gender, weight, weight_unit, birth, medical_conditions, activity_value, picture_hash]
+  - name: DailyGoal
+    identifier: dog_slug
+    description: A dog's activity-point goal for a given date, with optional future goals.
+    fields: [daily_goal, date]
+  - name: ActivitySeries
+    description: Time-series of activity points for a dog over a date range.
+    fields: [slug, from, to, resolution]
+  - name: TimeBreakdown
+    description: Minutes spent at each activity level (rest/active/play) over a date range.
+    fields: [slug, from, to]
+relationships:
+  - from: User
+    to: Dog
+    type: has_many
+    via: dog_relations
+    detail: A user is related to dogs as Owner or Friend (getUserRelatedDogs).
+  - from: Dog
+    to: User
+    type: has_many
+    via: user_relations
+    detail: A dog is associated with users and their relationship type (getDogRelatedUsers).
+  - from: Dog
+    to: DailyGoal
+    type: has_many
+    via: dog_slug
+  - from: Dog
+    to: ActivitySeries
+    type: has_many
+    via: slug
+  - from: Dog
+    to: TimeBreakdown
+    type: has_many
+    via: slug

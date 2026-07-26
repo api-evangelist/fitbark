@@ -1,0 +1,457 @@
+generated: '2026-07-19'
+method: searched
+source: https://documenter.getpostman.com/view/238826/2s8ZDbW1Gf (FitBark Public API v2, official Postman collection linked from https://www.fitbark.com/dev/)
+openapi: 3.0.3
+info:
+  title: FitBark API
+  version: '2.0'
+  description: >-
+    The FitBark API enables software developers to integrate FitBark dog activity
+    and health data sets into third-party mobile and web applications. It exposes
+    a dog's daily activity, historical activity series and totals, time-at-activity
+    breakdowns, daily goals, similar-dog statistics, related users and dogs, and
+    profile pictures. Authentication uses the OAuth 2.0 protocol; a client_id and
+    client_secret are issued to approved developers on application. This
+    description was reconstructed by API Evangelist from FitBark's official
+    published Postman collection; it is not an official FitBark OpenAPI document.
+  contact:
+    name: FitBark Developer API
+    url: https://www.fitbark.com/dev/
+  termsOfService: https://help.fitbark.com/en/articles/6490193
+servers:
+  - url: https://app.fitbark.com
+    description: FitBark production API
+tags:
+  - name: OAuth
+    description: OAuth 2.0 authorization and token endpoints
+  - name: User
+    description: Authenticated user profile and relationships
+  - name: Dog
+    description: Dog profile, relationships and pictures
+  - name: Activity
+    description: Historical activity series, totals and time breakdowns
+  - name: Goals
+    description: Daily goal management
+paths:
+  /oauth/authorize:
+    get:
+      tags: [OAuth]
+      operationId: authorize
+      summary: Get user access code
+      description: >-
+        OAuth 2.0 authorization endpoint. Redirects the user to grant the
+        application access; returns an authorization code that is exchanged at
+        the token endpoint for a user access token.
+      parameters:
+        - name: response_type
+          in: query
+          required: true
+          schema: { type: string, enum: [code] }
+        - name: client_id
+          in: query
+          required: true
+          schema: { type: string }
+        - name: redirect_uri
+          in: query
+          required: true
+          schema: { type: string }
+      responses:
+        '302':
+          description: Redirect to redirect_uri with authorization code
+  /oauth/token:
+    post:
+      tags: [OAuth]
+      operationId: token
+      summary: Exchange credentials for an access token
+      description: >-
+        OAuth 2.0 token endpoint. Supports the authorization_code grant (exchange
+        a user authorization code for a user access token) and the
+        client_credentials grant (obtain an application/open-API token).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
+      responses:
+        '200':
+          description: Access token issued
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '401':
+          description: Invalid client credentials or grant
+  /api/v2/redirect_urls:
+    get:
+      tags: [OAuth]
+      operationId: getRedirectUrls
+      summary: Get registered OAuth redirect URIs
+      security:
+        - openApiToken: []
+      responses:
+        '200': { description: List of registered redirect URIs }
+    post:
+      tags: [OAuth]
+      operationId: setRedirectUrls
+      summary: Set OAuth 2.0 redirect URIs via API
+      description: >-
+        All callbacks for user authentication must use a registered redirect URI.
+        Register one or more redirect URIs for the application.
+      security:
+        - openApiToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                redirect_uri:
+                  type: string
+                  description: One or more redirect URIs (carriage-return separated)
+      responses:
+        '200': { description: Redirect URIs registered }
+  /api/v2/user:
+    get:
+      tags: [User]
+      operationId: getUser
+      summary: Get user info
+      description: >-
+        Get information about the specified (authenticated) user including name,
+        username (email address), profile picture and Facebook ID. Access is Read.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: User object
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/User' }
+        '401': { description: Unauthorized }
+  /api/v2/user_relations/{dog_slug}:
+    get:
+      tags: [Dog]
+      operationId: getDogRelatedUsers
+      summary: Get dog related users
+      description: >-
+        Get a list of users currently associated with a specified dog, together
+        with the type of relationship (Owner or Friend). Access is Read.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/DogSlug'
+      responses:
+        '200': { description: Related users }
+        '401': { description: Unauthorized }
+        '404': { description: Dog not found }
+  /api/v2/dog_relations:
+    get:
+      tags: [Dog]
+      operationId: getUserRelatedDogs
+      summary: Get user related dogs
+      description: Get the dogs related to the authenticated user. Access is Read.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Related dogs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  dog_relations:
+                    type: array
+                    items: { $ref: '#/components/schemas/Dog' }
+        '401': { description: Unauthorized }
+  /api/v2/dog/{dog_slug}:
+    get:
+      tags: [Dog]
+      operationId: getDog
+      summary: Get dog info
+      description: >-
+        Get various information about a certain dog including name, breed, gender,
+        weight, birthday and picture. Access is Read.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/DogSlug'
+      responses:
+        '200':
+          description: Dog object
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Dog' }
+        '401': { description: Unauthorized }
+        '404': { description: Dog not found }
+  /api/v2/daily_goal/{dog_slug}:
+    get:
+      tags: [Goals]
+      operationId: getDailyGoal
+      summary: Get daily goal
+      description: >-
+        Get a dog's current daily goal and future daily goals set by an authorized
+        user (if any). Access is Read.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/DogSlug'
+      responses:
+        '200': { description: Daily goals }
+        '401': { description: Unauthorized }
+        '404': { description: Dog not found }
+    put:
+      tags: [Goals]
+      operationId: editDailyGoal
+      summary: Edit daily goal
+      description: >-
+        Set the daily goal for a specified dog, and get a response with future
+        daily goals (if any). By default a future daily goal repeats. Access is Write.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/DogSlug'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                daily_goal: { type: integer, example: 7900 }
+                date: { type: string, format: date }
+      responses:
+        '200': { description: Updated daily goals }
+        '401': { description: Unauthorized }
+  /api/v2/activity_series:
+    post:
+      tags: [Activity]
+      operationId: getActivitySeries
+      summary: Get activity series
+      description: >-
+        Get historical series data between two specified date times. The maximum
+        range is 42 days with daily resolution and 7 days with hourly resolution.
+        Access is Read.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ActivitySeriesRequest' }
+      responses:
+        '200': { description: Activity series }
+        '401': { description: Unauthorized }
+  /api/v2/activity_totals:
+    post:
+      tags: [Activity]
+      operationId: getActivityTotals
+      summary: Get activity totals
+      description: >-
+        Get historical activity data by totaling the historical series between two
+        specified date times. Access is Read.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/DogDateRangeRequest' }
+      responses:
+        '200': { description: Activity totals }
+        '401': { description: Unauthorized }
+  /api/v2/time_breakdown:
+    post:
+      tags: [Activity]
+      operationId: getTimeBreakdown
+      summary: Get time breakdown
+      description: >-
+        Get the time (in minutes) spent at each activity level (rest, active, play)
+        for a certain dog between two specified date times. Access is Read.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/DogDateRangeRequest' }
+      responses:
+        '200': { description: Time breakdown }
+        '401': { description: Unauthorized }
+  /api/v2/similar_dogs_stats:
+    post:
+      tags: [Activity]
+      operationId: getSimilarDogsStats
+      summary: Get similar dogs stats
+      description: Get this dog's, and similar dogs', statistics. Access is Read.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                slug: { type: string, description: Dog slug }
+      responses:
+        '200': { description: Similar dogs statistics }
+        '401': { description: Unauthorized }
+  /api/v2/picture/user/{user_slug}:
+    get:
+      tags: [User]
+      operationId: getUserPicture
+      summary: Get user picture
+      description: >-
+        Get the Base64 encoded picture for a specified user. Images can only be
+        accessed if the authenticated user is an existing owner or friend.
+        Access is Read.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: user_slug
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Base64 encoded user picture }
+        '401': { description: Unauthorized }
+  /api/v2/picture/dog/{dog_slug}:
+    get:
+      tags: [Dog]
+      operationId: getDogPicture
+      summary: Get dog picture
+      description: >-
+        Get the Base64 encoded picture for a specified dog. Images can only be
+        accessed if the authenticated user is an existing owner or friend.
+        Access is Read.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/DogSlug'
+      responses:
+        '200': { description: Base64 encoded dog picture }
+        '401': { description: Unauthorized }
+  /api/v2/public_picture_user/{dog_slug}.jpg:
+    get:
+      tags: [User]
+      operationId: getPublicUserPicture
+      summary: Get public user picture
+      description: Get the public JPEG picture for a user associated with a dog.
+      parameters:
+        - $ref: '#/components/parameters/DogSlug'
+      responses:
+        '200':
+          description: JPEG image
+          content:
+            image/jpeg: {}
+  /api/v2/public_picture_dog/{dog_slug}.jpg:
+    get:
+      tags: [Dog]
+      operationId: getPublicDogPicture
+      summary: Get public dog picture
+      description: Get the public JPEG picture for a specified dog.
+      parameters:
+        - $ref: '#/components/parameters/DogSlug'
+      responses:
+        '200':
+          description: JPEG image
+          content:
+            image/jpeg: {}
+components:
+  parameters:
+    DogSlug:
+      name: dog_slug
+      in: path
+      required: true
+      description: The unique slug identifying a dog
+      schema: { type: string }
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 user access token (Bearer) obtained from /oauth/token
+    openApiToken:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 application (open-API) token from the client_credentials grant
+    oauth2:
+      type: oauth2
+      description: FitBark OAuth 2.0
+      flows:
+        authorizationCode:
+          authorizationUrl: https://app.fitbark.com/oauth/authorize
+          tokenUrl: https://app.fitbark.com/oauth/token
+          scopes:
+            fitbark_open_api: Access to the FitBark Public API for the approved application
+        clientCredentials:
+          tokenUrl: https://app.fitbark.com/oauth/token
+          scopes:
+            fitbark_open_api: Access to the FitBark Public API for the approved application
+  schemas:
+    TokenRequest:
+      type: object
+      required: [grant_type, client_id, client_secret]
+      properties:
+        grant_type:
+          type: string
+          enum: [authorization_code, client_credentials]
+        client_id: { type: string }
+        client_secret: { type: string }
+        scope: { type: string }
+        code:
+          type: string
+          description: Authorization code (authorization_code grant only)
+    TokenResponse:
+      type: object
+      properties:
+        access_token: { type: string }
+        token_type: { type: string, example: bearer }
+        expires_in: { type: integer }
+        scope: { type: string }
+    User:
+      type: object
+      properties:
+        slug: { type: string }
+        name: { type: string }
+        username: { type: string, description: Email address }
+        first_name: { type: string }
+        last_name: { type: string }
+        picture_hash: { type: string }
+    Dog:
+      type: object
+      properties:
+        slug: { type: string }
+        name: { type: string }
+        breed: { type: string }
+        gender: { type: string }
+        weight: { type: number }
+        weight_unit: { type: string }
+        birth: { type: string }
+        medical_conditions: { type: array, items: { type: string } }
+        activity_value: { type: integer }
+        picture_hash: { type: string }
+    ActivitySeriesRequest:
+      type: object
+      properties:
+        activity_series:
+          type: object
+          required: [slug, from, to]
+          properties:
+            slug: { type: string }
+            from: { type: string, format: date }
+            to: { type: string, format: date }
+            resolution:
+              type: string
+              enum: [DAILY, HOURLY]
+    DogDateRangeRequest:
+      type: object
+      properties:
+        dog:
+          type: object
+          required: [slug, from, to]
+          properties:
+            slug: { type: string }
+            from: { type: string, format: date }
+            to: { type: string, format: date }

@@ -1,0 +1,25 @@
+generated: '2026-07-19'
+method: searched
+source: npm registry search, PyPI, Packagist
+notes: >-
+  FitBark publishes no first-party client SDKs (its GitHub org has no public
+  repositories). The libraries below are community/third-party wrappers of the
+  FitBark Public API and are marked official:false. No SDKs pointer is emitted
+  because none are first-party.
+packages:
+  - language: python
+    registry: pypi
+    name: fitbark
+    url: https://pypi.org/project/fitbark/
+    install: pip install fitbark
+    repository: https://github.com/alexhouse/python-fitbark
+    official: false
+    note: Community FitBark API wrapper by Alex House
+  - language: javascript
+    registry: npm
+    name: fitbark-node-client
+    url: https://www.npmjs.com/package/fitbark-node-client
+    install: npm install fitbark-node-client
+    repository: https://github.com/marioharper/fitbark-node-client
+    official: false
+    note: Community Node client for the FitBark web API by Mario Harper
