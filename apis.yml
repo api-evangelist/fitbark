@@ -150,6 +150,10 @@ apis:
   - type: Lifecycle
     url: lifecycle/fitbark-lifecycle.yml
 common:
+- type: MCPServer
+  url: mcp/fitbark-mcp.yml
+- type: Overlay
+  url: overlays/fitbark-overlay.yaml
 - type: AgenticAccess
   url: agentic-access/fitbark-agentic-access.yml
 - type: OAuthScopes
