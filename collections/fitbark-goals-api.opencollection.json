@@ -1,0 +1,68 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "FitBark Activity Goals API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Goals",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get daily goal",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.fitbark.com/api/v2/daily_goal/:dog_slug",
+            "params": [
+              {
+                "name": "dog_slug",
+                "value": "",
+                "type": "path",
+                "description": "The unique slug identifying a dog"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a dog's current daily goal and future daily goals set by an authorized user (if any). Access is Read."
+        },
+        {
+          "info": {
+            "name": "Edit daily goal",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.fitbark.com/api/v2/daily_goal/:dog_slug",
+            "params": [
+              {
+                "name": "dog_slug",
+                "value": "",
+                "type": "path",
+                "description": "The unique slug identifying a dog"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Set the daily goal for a specified dog, and get a response with future daily goals (if any). By default a future daily goal repeats. Access is Write."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

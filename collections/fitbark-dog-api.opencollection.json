@@ -1,0 +1,121 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "FitBark Activity Dog API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Dog",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get dog related users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.fitbark.com/api/v2/user_relations/:dog_slug",
+            "params": [
+              {
+                "name": "dog_slug",
+                "value": "",
+                "type": "path",
+                "description": "The unique slug identifying a dog"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a list of users currently associated with a specified dog, together with the type of relationship (Owner or Friend). Access is Read."
+        },
+        {
+          "info": {
+            "name": "Get user related dogs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.fitbark.com/api/v2/dog_relations",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the dogs related to the authenticated user. Access is Read."
+        },
+        {
+          "info": {
+            "name": "Get dog info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.fitbark.com/api/v2/dog/:dog_slug",
+            "params": [
+              {
+                "name": "dog_slug",
+                "value": "",
+                "type": "path",
+                "description": "The unique slug identifying a dog"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get various information about a certain dog including name, breed, gender, weight, birthday and picture. Access is Read."
+        },
+        {
+          "info": {
+            "name": "Get dog picture",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.fitbark.com/api/v2/picture/dog/:dog_slug",
+            "params": [
+              {
+                "name": "dog_slug",
+                "value": "",
+                "type": "path",
+                "description": "The unique slug identifying a dog"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the Base64 encoded picture for a specified dog. Images can only be accessed if the authenticated user is an existing owner or friend. Access is Read."
+        },
+        {
+          "info": {
+            "name": "Get public dog picture",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.fitbark.com/api/v2/public_picture_dog/:dog_slug.jpg",
+            "params": [
+              {
+                "name": "dog_slug",
+                "value": "",
+                "type": "path",
+                "description": "The unique slug identifying a dog"
+              }
+            ]
+          },
+          "docs": "Get the public JPEG picture for a specified dog."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

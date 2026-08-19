@@ -1,0 +1,94 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "FitBark Activity API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Activity",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get activity series",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.fitbark.com/api/v2/activity_series",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get historical series data between two specified date times. The maximum range is 42 days with daily resolution and 7 days with hourly resolution. Access is Read."
+        },
+        {
+          "info": {
+            "name": "Get activity totals",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.fitbark.com/api/v2/activity_totals",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get historical activity data by totaling the historical series between two specified date times. Access is Read."
+        },
+        {
+          "info": {
+            "name": "Get time breakdown",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.fitbark.com/api/v2/time_breakdown",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the time (in minutes) spent at each activity level (rest, active, play) for a certain dog between two specified date times. Access is Read."
+        },
+        {
+          "info": {
+            "name": "Get similar dogs stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.fitbark.com/api/v2/similar_dogs_stats",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get this dog's, and similar dogs', statistics. Access is Read."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

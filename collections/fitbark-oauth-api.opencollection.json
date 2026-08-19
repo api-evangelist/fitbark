@@ -1,0 +1,95 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "FitBark Activity OAuth API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "OAuth",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get user access code",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.fitbark.com/oauth/authorize",
+            "params": [
+              {
+                "name": "response_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "redirect_uri",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "OAuth 2.0 authorization endpoint. Redirects the user to grant the application access; returns an authorization code that is exchanged at the token endpoint for a user access token."
+        },
+        {
+          "info": {
+            "name": "Exchange credentials for an access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.fitbark.com/oauth/token",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "OAuth 2.0 token endpoint. Supports the authorization_code grant (exchange a user authorization code for a user access token) and the client_credentials grant (obtain an application/open-API token)."
+        },
+        {
+          "info": {
+            "name": "Get registered OAuth redirect URIs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.fitbark.com/api/v2/redirect_urls",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get registered OAuth redirect URIs"
+        },
+        {
+          "info": {
+            "name": "Set OAuth 2.0 redirect URIs via API",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.fitbark.com/api/v2/redirect_urls",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "All callbacks for user authentication must use a registered redirect URI. Register one or more redirect URIs for the application."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
