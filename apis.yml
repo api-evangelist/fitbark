@@ -115,6 +115,8 @@ apis:
   humanURL: https://www.fitbark.com/dev/
   baseURL: https://app.fitbark.com/api/v2
   tags:
+  - Authentication
+  tags_raw:
   - OAuth
   properties:
   - type: OpenAPI
