@@ -121,28 +121,6 @@ apis:
     url: conformance/fitbark-conformance.yml
   - type: Lifecycle
     url: lifecycle/fitbark-lifecycle.yml
-- aid: fitbark:fitbark-oauth-api
-  name: FitBark OAuth API
-  description: OAuth 2.0 authorization and token endpoints
-  humanURL: https://www.fitbark.com/dev/
-  baseURL: https://app.fitbark.com/api/v2
-  tags:
-  - Authentication
-  tags_raw:
-  - OAuth
-  properties:
-  - type: OpenAPI
-    url: openapi/fitbark-oauth-api-openapi.yml
-  - type: ErrorCatalog
-    url: errors/fitbark-problem-types.yml
-  - type: DataModel
-    url: data-model/fitbark-data-model.yml
-  - type: Conventions
-    url: conventions/fitbark-conventions.yml
-  - type: Conformance
-    url: conformance/fitbark-conformance.yml
-  - type: Lifecycle
-    url: lifecycle/fitbark-lifecycle.yml
 - aid: fitbark:fitbark-user-api
   name: FitBark User API
   description: Authenticated user profile and relationships
@@ -153,6 +131,26 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/fitbark-user-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/fitbark-problem-types.yml
+  - type: DataModel
+    url: data-model/fitbark-data-model.yml
+  - type: Conventions
+    url: conventions/fitbark-conventions.yml
+  - type: Conformance
+    url: conformance/fitbark-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/fitbark-lifecycle.yml
+- aid: fitbark:fitbark-oauth-api
+  name: FitBark O Auth API
+  description: OAuth 2.0 authorization and token endpoints
+  humanURL: https://www.fitbark.com/dev/
+  baseURL: https://app.fitbark.com/api/v2
+  tags:
+  - OAuth
+  properties:
+  - type: OpenAPI
+    url: openapi/fitbark-oauth-api-openapi.yml
   - type: ErrorCatalog
     url: errors/fitbark-problem-types.yml
   - type: DataModel
