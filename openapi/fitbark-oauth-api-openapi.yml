@@ -1,8 +1,8 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: FitBark Activity OAuth API
+  title: FitBark O Auth API
   version: '2.0'
-  description: The FitBark API enables software developers to integrate FitBark dog activity and health data sets into third-party mobile and web applications. It exposes a dog's daily activity, historical activity series and totals, time-at-activity breakdowns, daily goals, similar-dog statistics, related users and dogs, and profile pictures. Authentication uses the OAuth 2.0 protocol; a client_id and client_secret are issued to approved developers on application. This description was reconstructed by API Evangelist from FitBark's official published Postman collection; it is not an official FitBark OpenAPI document.
+  description: The FitBark API enables software developers to integrate FitBark dog activity and health data sets into third-party mobile and web applications.
   contact:
     name: FitBark Developer API
     url: https://www.fitbark.com/dev/
@@ -98,6 +98,18 @@ paths:
           description: Redirect URIs registered
 components:
   schemas:
+    TokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+        token_type:
+          type: string
+          example: bearer
+        expires_in:
+          type: integer
+        scope:
+          type: string
     TokenRequest:
       type: object
       required:
@@ -119,18 +131,6 @@ components:
         code:
           type: string
           description: Authorization code (authorization_code grant only)
-    TokenResponse:
-      type: object
-      properties:
-        access_token:
-          type: string
-        token_type:
-          type: string
-          example: bearer
-        expires_in:
-          type: integer
-        scope:
-          type: string
   securitySchemes:
     bearerAuth:
       type: http

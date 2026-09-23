@@ -1,0 +1,25 @@
+# Front Door AI Index — fitbark — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: fitbark
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: fitbark.com
+  final_host: www.fitbark.com
+  ownership: own
+  owner: fitbark
+  shares_host_with: null
+  inherited_from: null
+  verdict: silent
+  score: 0
+  host_score: 0
+  density: 0.0
+  words: 469
+  tiers:
+    agentic: 0
+    core: 0
+    model: 0
+  ambiguous: 1
+  top_terms:
+    smart: 1
