@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: FitBark O Auth API
+  title: FitBark OAuth API
   version: '2.0'
   description: The FitBark API enables software developers to integrate FitBark dog activity and health data sets into third-party mobile and web applications.
   contact:
@@ -98,18 +98,6 @@ paths:
           description: Redirect URIs registered
 components:
   schemas:
-    TokenResponse:
-      type: object
-      properties:
-        access_token:
-          type: string
-        token_type:
-          type: string
-          example: bearer
-        expires_in:
-          type: integer
-        scope:
-          type: string
     TokenRequest:
       type: object
       required:
@@ -131,6 +119,18 @@ components:
         code:
           type: string
           description: Authorization code (authorization_code grant only)
+    TokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+        token_type:
+          type: string
+          example: bearer
+        expires_in:
+          type: integer
+        scope:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http
