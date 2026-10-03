@@ -98,6 +98,18 @@ paths:
           description: Redirect URIs registered
 components:
   schemas:
+    TokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+        token_type:
+          type: string
+          example: bearer
+        expires_in:
+          type: integer
+        scope:
+          type: string
     TokenRequest:
       type: object
       required:
@@ -119,18 +131,6 @@ components:
         code:
           type: string
           description: Authorization code (authorization_code grant only)
-    TokenResponse:
-      type: object
-      properties:
-        access_token:
-          type: string
-        token_type:
-          type: string
-          example: bearer
-        expires_in:
-          type: integer
-        scope:
-          type: string
   securitySchemes:
     bearerAuth:
       type: http

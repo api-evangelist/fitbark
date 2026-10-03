@@ -100,6 +100,24 @@ paths:
           description: Unauthorized
 components:
   schemas:
+    DogDateRangeRequest:
+      type: object
+      properties:
+        dog:
+          type: object
+          required:
+          - slug
+          - from
+          - to
+          properties:
+            slug:
+              type: string
+            from:
+              type: string
+              format: date
+            to:
+              type: string
+              format: date
     ActivitySeriesRequest:
       type: object
       properties:
@@ -123,24 +141,6 @@ components:
               enum:
               - DAILY
               - HOURLY
-    DogDateRangeRequest:
-      type: object
-      properties:
-        dog:
-          type: object
-          required:
-          - slug
-          - from
-          - to
-          properties:
-            slug:
-              type: string
-            from:
-              type: string
-              format: date
-            to:
-              type: string
-              format: date
   securitySchemes:
     bearerAuth:
       type: http
