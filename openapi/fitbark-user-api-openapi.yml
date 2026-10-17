@@ -67,6 +67,14 @@ paths:
           content:
             image/jpeg: {}
 components:
+  parameters:
+    DogSlug:
+      name: dog_slug
+      in: path
+      required: true
+      description: The unique slug identifying a dog
+      schema:
+        type: string
   schemas:
     User:
       type: object
@@ -84,14 +92,6 @@ components:
           type: string
         picture_hash:
           type: string
-  parameters:
-    DogSlug:
-      name: dog_slug
-      in: path
-      required: true
-      description: The unique slug identifying a dog
-      schema:
-        type: string
   securitySchemes:
     bearerAuth:
       type: http
